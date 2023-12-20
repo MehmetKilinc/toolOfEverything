@@ -17,54 +17,48 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QMovie
 
+
+
 class AnaPencere(QWidget):
     def __init__(self):
         super().__init__()
         self.setGeometry(0, 0, 800, 800)
         self.setWindowTitle('Ana Pencere')
         self.setStyleSheet("background-color: green")
-        buton = QPushButton('BASE64', self)
-        rot13 = QPushButton('ROT13' , self)
         pentest = QPushButton('PENTEST' , self)
-        buton.setStyleSheet("background-color: black; color: white;")
-        rot13.setStyleSheet("background-color: black; color: white;")
-        md5 = QPushButton("MD - SHA",self)
-        md5.setStyleSheet("background-color: black; color: white")
+        pentest.setGeometry(50,50,300,50)
+        pentest.setStyleSheet("QPushButton { border-radius: 15px; background-color: black; color: white; }")
+        sifrele = QPushButton('ŞİFRELEME | ŞİFRE KIRMA',self)
+        sifrele.setGeometry(50,50,300,50)
+        sifrele.setStyleSheet("QPushButton { border-radius: 15px; background-color: black; color: white; }")
         dosya = QPushButton("DOSYA İŞLEMLERİ" , self)
-        dosya.setStyleSheet("background-color: black; color: white")
-        pentest.setStyleSheet('background-color: black ; color: white')
+        dosya.setGeometry(50,50,300,50)
+        dosya.setStyleSheet("QPushButton { border-radius: 15px; background-color: black; color: white; }")
         ingilizce = QPushButton('İNGİLİZCE ÖĞREN',self)
-        ingilizce.setStyleSheet('background-color:black;color:white')
+        ingilizce.setGeometry(50,50,300,50)
+        ingilizce.setStyleSheet("QPushButton { border-radius: 15px; background-color: black; color: white; }")
         geri = QPushButton('KAPAT',self)
-        geri.setStyleSheet("background-color:purple;color:black")
+        geri.setGeometry(50,50,200,50)
+        geri.setStyleSheet('background-color: #3498db ; color : black ; border-radius: 15px')
         video = QMovie('./gifs/deneme.gif')
         degisken = QLabel(self)
         degisken.setMovie(video)
         degisken.move(800,300)
         video.start()
-        buton.move(100 , 50)
-        rot13.move(100,100)
-        md5.move(100 , 150)
-        dosya.move(1600 , 50)
-        pentest.move(1600 , 100)
-        ingilizce.move(1600 , 150)
-        geri.move(1700,900)
-        buton.clicked.connect(self.yeni_pencereyi_ac)
-        rot13.clicked.connect(self.rot13_ac)
-        md5.clicked.connect(self.md5sayfa)
+        dosya.move(1550 , 50)
+        pentest.move(50 , 150)
+        ingilizce.move(1550 , 150)
+        geri.move(1600,900)
+        sifrele.move(50,50)
         dosya.clicked.connect(self.dosyaislemler)
         pentest.clicked.connect(self.pentest_islem)
         ingilizce.clicked.connect(self.english)
         geri.clicked.connect(self.kapat)
-    def yeni_pencereyi_ac(self):
-        self.yeni_pencere = Base64Pencere()
-        self.yeni_pencere.showMaximized()
-    def rot13_ac(self):
-        self.yeni_pencere = Rot()
-        self.yeni_pencere.showMaximized()
-    def md5sayfa(self):
-        self.yeni_pencere = Md5()
-        self.yeni_pencere.showMaximized()
+        sifrele.clicked.connect(self.sifre)
+
+    def sifre(self):
+    	self.yeni_pencere = Sifre()
+    	self.yeni_pencere.showMaximized()
     def dosyaislemler(self):
         self.yeni_pencere = Dosya_Donusturucu()
         self.yeni_pencere.showMaximized()
@@ -77,19 +71,61 @@ class AnaPencere(QWidget):
     def kapat(self):
     	self.close()
 
+
+class Sifre(QWidget):
+	def __init__(self):
+		super().__init__()
+		self.setWindowTitle("şifreleme")
+		self.setStyleSheet('background-color:green')
+		video = QMovie('./gifs/deneme.gif')
+		degisken = QLabel(self)
+		degisken.setMovie(video)
+		degisken.move(800,300)
+		video.start()
+		self.md5 = QPushButton('MD5',self)
+		self.base64 = QPushButton('BASE64',self)
+		self.geri = QPushButton('GERİ',self)
+		self.rot13 = QPushButton('ROT13',self)
+		self.md5.setStyleSheet('background-color:black;color:white')
+		self.base64.setStyleSheet('background-color:black;color:white')
+		self.geri.setStyleSheet('background-color:purple;color:black')
+		self.rot13.setStyleSheet('background-color:black;color:white')
+		self.md5.move(50,50)
+		self.base64.move(50,100)
+		self.geri.move(1700,900)
+		self.rot13.move(50,150)
+		self.md5.clicked.connect(self.md5sayfa)
+		self.base64.clicked.connect(self.base64sayfa)
+		self.geri.clicked.connect(self.kapa)
+		self.rot13.clicked.connect(self.rot13sayfa)
+
+
+	def md5sayfa(self):
+		self.yeni_pencere = Md5()
+		self.yeni_pencere.showMaximized()
+	def base64sayfa(self):
+		self.yeni_pencere = Base64Pencere()
+		self.yeni_pencere.showMaximized()
+	def kapa(self):
+		self.close()
+	def rot13sayfa(self):
+		self.yeni_pencere = Rot()
+		self.yeni_pencere.showMaximized()
+
+
 class Dosya_Donusturucu(QWidget):
     def __init__(self):
         super().__init__()
         self.setGeometry(0, 0, 800, 800)
         self.setWindowTitle('Ana Pencere')
         self.setStyleSheet("background-color: green")
-        pdf_birlestir = QPushButton('pdf birleştir', self)
+        pdf_birlestir = QPushButton('PDF BİRLEŞTİR', self)
         kapat = QPushButton('GERİ' , self)
         pdf_birlestir.setStyleSheet("background-color: black; color: white;")
         pdf_birlestir.move(100 , 50)
         pdf_birlestir.clicked.connect(self.yeni)
         kapat.clicked.connect(self.kapa)
-        kapat.setStyleSheet('background-color: black ; color : white')
+        kapat.setStyleSheet('background-color: purple ; color : black')
         kapat.move(1700,900)
         video = QMovie('./gifs/deneme.gif')
         degisken = QLabel(self)
@@ -257,6 +293,9 @@ class Pdf(QWidget):
         self.dosya_sec.setStyleSheet('background-color: purple ; color: black')
         self.dosya_birlestir.setStyleSheet('background-color: purple ; color: black')
         self.geri.setStyleSheet('background-color: green ; color: black')
+        self.dosya_sec.setFixedHeight(100)
+        self.geri.setFixedHeight(100)
+        self.dosya_birlestir.setFixedHeight(100)
         layout = QVBoxLayout()
         layout.addWidget(self.yazi)
         layout.addStretch()
@@ -330,15 +369,15 @@ class Nmap(QWidget):
         layout.addWidget(self.tamam)
         layout.addWidget(self.geri)
         self.setLayout(layout)
-        self.tamam.setStyleSheet('background-color: purple;color:black')
-        self.geri.setStyleSheet('background-color:green;color:black')
+        self.tamam.setStyleSheet('border-radius : 30px ; background-color: purple;color:black')
+        self.geri.setStyleSheet('border-radius : 15px ; background-color:green;color:black')
         self.tamam.clicked.connect(self.tarama_baslat)
         self.geri.clicked.connect(self.kapat)
     def tarama_baslat(self):
 
     	ip_adres = self.ip.toPlainText()
     	nm = nmap.PortScanner()
-    	nm.scan(hosts=ip_adres , arguments=f'-p 1-1000')
+    	nm.scan(hosts=ip_adres , arguments=f'-p 1-100')
     	total_hosts = len(nm.all_hosts())
     	current_host = 0
     	liste = list()
@@ -349,7 +388,6 @@ class Nmap(QWidget):
     			ports = nm[i][k].keys()
     			total_ports = len(ports)
     			current_port = 0
-
     			for port in ports:
     				current_port +=1
     				state = nm[i][k][port]['state']
@@ -377,15 +415,19 @@ class English(QWidget):
 		geri = QPushButton('GERİ',self)
 		kelime_ekle = QPushButton('KELİME EKLE',self)
 		kelime_sil = QPushButton('KELİME SİL',self)
-		kelime_ekle.setStyleSheet('background-color:black;color:white')
-		kelime_sil.setStyleSheet('background-color:black;color:white')
+		kelime_ekle.setStyleSheet('border-radius:15px; background-color:black;color:white')
+		kelime_sil.setStyleSheet('border-radius:15px;background-color:black;color:white')
 		kelime_oyunu = QPushButton('KELİME OYUNU',self)
-		kelime_oyunu.setStyleSheet('background-color:black;color:white')
-		geri.setStyleSheet('background-color:red;color:black')
-		geri.move(1700,900)
+		kelime_oyunu.setStyleSheet('border-radius:15px;background-color:black;color:white')
+		kelime_ekle.setGeometry(50,50,300,50)
+		kelime_sil.setGeometry(50,50,300,50)
+		kelime_oyunu.setGeometry(50,50,300,50)
+		geri.setStyleSheet('border-radius:15px;background-color:#3498db;color:black')
+		geri.setGeometry(50,50,200,50)
+		geri.move(1600,900)
 		kelime_ekle.move(50,50)
-		kelime_sil.move(50,100)
-		kelime_oyunu.move(50,150)
+		kelime_sil.move(50,150)
+		kelime_oyunu.move(50,250)
 		geri.clicked.connect(self.kapat)
 		kelime_ekle.clicked.connect(self.kelime_eklee)
 		kelime_sil.clicked.connect(self.kelime_sill)
@@ -558,38 +600,35 @@ class Oyun(QWidget):
 		cursor.execute('SELECT * FROM kelimeler ORDER BY RANDOM() LIMIT 1')
 		self.deger,self.diger = cursor.fetchone()
 		self.kelimeler.setText(self.diger)
-		kel = self.deger
-		url = 'https://sentence.yourdictionary.com/' + str(kel)
+		self.kel = self.deger
+		url = 'https://sentence.yourdictionary.com/' + str(self.kel)
 		response = requests.get(url)
-		liste = list()
+		self.liste = list()
 		if response.status_code == 200:
 			html_icerigi = response.content
 			soup = BeautifulSoup(html_icerigi,'html.parser')
 			for i in soup.find_all("div",{"class":"sentence-item__wrapper"}):
-				liste.append(i.text)
-			self.result = '\n'.join((liste))
-
-
-	
+				self.liste.append(i.text)
+			self.result = '\n'.join((self.liste))
 	def ornekler(self):
 		self.yazi.setPlainText(self.result)
-
-		
-
+		self.liste.clear()
 	def cevaplaa(self):
 		son = self.yazi.toPlainText()
 		if son != self.deger:
 			self.sonuc.setText('YANLIŞ!!!')
 		else:
 			self.sonuc.setText('DOĞRU')
-
 	def sonrakii(self):
 		con = sqlite3.connect("kelime.db")
 		cursor = con.cursor()
 		cursor.execute('SELECT * FROM kelimeler ORDER BY RANDOM() LIMIT 1')
 		self.deger,self.diger = cursor.fetchone()
 		self.kelimeler.setText(self.diger)
-		
+		self.yazi.clear()
+		self.sonuc.setText('')
+		self.kel = self.deger
+		self.liste.clear()	
 	def okunuss(self):
 		kelimeeee = self.deger
 		import pyttsx3
